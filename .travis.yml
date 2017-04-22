@@ -1,5 +1,6 @@
 language: generic
 os: osx
+osx_image: xcode8.3
 before_install:
   - brew update
   - brew tap homebrew/dupes
