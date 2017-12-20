@@ -2,7 +2,7 @@ language: generic
 os: osx
 osx_image: xcode8.3
 before_install:
-  - VERSION=${TRAVIS_TAG:-snapshot}
+  - export VERSION=${TRAVIS_TAG:-snapshot}
   - brew update
   - brew tap homebrew/homebrew-php
   - brew install php72 php72-xdebug
