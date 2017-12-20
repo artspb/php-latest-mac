@@ -27,7 +27,7 @@ script:
   - cp /usr/local/etc/php/7.2/php.ini ini
   - cp -r /usr/local/etc/php/7.2/conf.d ini
   - sed -i '' "s=/usr/local/opt/php72-xdebug/xdebug.so=\$(pwd)/php72-xdebug/xdebug.so=g" $(pwd)/ini/conf.d/ext-xdebug.ini
-  - tar czf ../php72-$VERSION.tar.gz .
+  - tar czf ../php72-${VERSION}.tar.gz .
   - sed -i '' "s=\$(pwd)/php72-xdebug/xdebug.so=$(pwd)/php72-xdebug/xdebug.so=g" $(pwd)/ini/conf.d/ext-xdebug.ini
   - brew rm --ignore-dependencies php72 php72-xdebug $(brew deps php72)
   - ./php.sh --version
@@ -38,7 +38,7 @@ deploy:
   provider: releases
   api_key:
     secure: BJpnmALcNUjawlDKn0HFp5nuitSvzYVzj0WkR5CjOuEhA04PWv4l1IwAQSU+HfpPI3pnf4QONpk9lkYNpHHCszYx17oiiMo8axysxls1/RUWhv2MJOZDx55Bh7oe1BtCRfwO9SSCdldjkTkUz0goxnm3fXPy2cCm9t63MZexLlLsER18mY8qptragC1vhPmq4pPTc3sUMZwU/ZX4maydQaeT2Npt12Bt0TFSxMnmc2HwC2HiYjVIfcennoObxHXAhZY1xftJErl3YEjBY87xRY0tsZxXvF9Di+zE840Cx+WVSjMhl+kh5w1d1zaa4P3XYiErFqq/xdBn2hpwcRhc6YTQQ3B8M0kIP1UHLmER+0neiuOOPedCMgTlYA0unbQWCELlMzc00cCpEuyyCIneaw1cGnAagjYrG5EM82aXeG9SJKI2jVa1I2+mykFMVmg80wlDDQLTuC6rkaxIIAg7XurL6pp7BTYcfVBsbyXt1k86qWtkvBDs8vtluI5SR5bL6jfdIAcu3g3k98K5nh03J5+Z0IUHmmgo0Joo3R7hLvuq1ZI5ygJNIxcKpU7X/6K3OcNz1blphLWq1CdJCFXl450i5FwiDH2tC1+macUGDk6QNnabsm1kMfJkziVlsV8K1ZusI8bAU6KP1KRtojy/sWO2c1RhSSo9ml5e7nEDrI4=
-  file: php72-$VERSION.tar.gz
+  file: php72-${VERSION}.tar.gz
   skip_cleanup: true
   on:
     tags: true
