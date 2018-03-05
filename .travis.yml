@@ -9,6 +9,7 @@ before_install:
 script:
   - mkdir bundle && cd bundle
   - cp ../php.sh . && chmod +x php.sh
+  - ln -s /usr/local/Cellar/php /usr/local/Cellar/php72
   - cp -r /usr/local/Cellar/php72/$(brew list --versions php72 | awk '{print $2;}') php72
   - cp -r /usr/local/Cellar/php72-xdebug/$(ls /usr/local/Cellar/php72-xdebug/) php72-xdebug
   - mkdir lib
@@ -23,6 +24,18 @@ script:
   - cp /usr/local/opt/libpng/lib/libpng16.16.dylib lib
   - cp /usr/local/opt/libtool/lib/libltdl.7.dylib lib
   - cp /usr/local/opt/libsodium/lib/libsodium.23.dylib lib
+  - cp /usr/local/opt/libzip/lib/libzip.5.dylib lib
+  - cp /usr/local/opt/argon2/lib/libargon2.1.dylib lib
+  - cp /usr/local/opt/aspell/lib/libaspell.15.dylib lib
+  - cp /usr/local/opt/aspell/lib/libpspell.15.dylib lib
+  - cp /usr/local/opt/freetds/lib/libsybdb.5.dylib lib
+  - cp /usr/local/opt/gmp/lib/libgmp.10.dylib lib
+  - cp /usr/local/opt/webp/lib/libwebp.7.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicui18n.60.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuuc.60.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.60.2.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuio.60.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.60.dylib lib
   - mkdir ini
   - cp /usr/local/etc/php/7.2/php.ini ini
   - cp -r /usr/local/etc/php/7.2/conf.d ini
@@ -32,7 +45,7 @@ script:
   - brew rm --ignore-dependencies php72 php72-xdebug $(brew deps php72)
   - ./php.sh --version
   - ./php.sh --ini
-  - brew install openssl
+  - brew install openssl gmp
   - cd ..
 deploy:
   provider: releases
