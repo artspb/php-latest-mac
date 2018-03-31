@@ -42,7 +42,7 @@ script:
   - sed -i '' '/^zend_extension="xdebug.so"/d' ini/php.ini
   - echo -e "[opcache]\nzend_extension=\"\$(pwd)/$(find php72 -name opcache.so)\"\n" > ini/conf.d/ext-opcache.ini
   - echo -e "[xdebug]\nzend_extension=\"\$(pwd)/$(find php72 -name xdebug.so)\"\n" > ini/conf.d/ext-xdebug.ini
-  - tar czf ../php-${VERSION}.tar.gz .
+  - tar czf ../php72-${VERSION}.tar.gz .
   - sed -i '' "s=\$(pwd)/$(find php72 -name opcache.so)=$(pwd)/$(find php72 -name opcache.so)=g" ini/conf.d/ext-opcache.ini
   - sed -i '' "s=\$(pwd)/$(find php72 -name xdebug.so)=$(pwd)/$(find php72 -name xdebug.so)=g" ini/conf.d/ext-xdebug.ini
   - pecl uninstall xdebug
