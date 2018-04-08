@@ -4,14 +4,14 @@ osx_image: xcode8.3
 before_install:
   - export VERSION=${TRAVIS_TAG:-snapshot}
   - brew update
-  - brew tap homebrew/homebrew-php
-  - brew install php72 php72-xdebug
+  - brew install php autoconf
+  - pecl install xdebug > pecl_xdebug.txt
 script:
+  - XDEBUG_SO=$(sed -n "s=Installing '\(.*/xdebug\.so\)'=\1=p" pecl_xdebug.txt)
+  - mv "$XDEBUG_SO" $(echo $XDEBUG_SO | sed "s=/pecl/=/lib/php/=g")
   - mkdir bundle && cd bundle
   - cp ../php.sh . && chmod +x php.sh
-  - ln -s /usr/local/Cellar/php /usr/local/Cellar/php72
-  - cp -r /usr/local/Cellar/php72/$(brew list --versions php72 | awk '{print $2;}') php72
-  - cp -r /usr/local/Cellar/php72-xdebug/$(ls /usr/local/Cellar/php72-xdebug/) php72-xdebug
+  - cp -r /usr/local/Cellar/php/$(brew list --versions php72 | awk '{print $2;}') php72
   - mkdir lib
   - cp /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib lib
   - cp /usr/local/opt/openssl/lib/libssl.1.0.0.dylib lib
@@ -31,18 +31,22 @@ script:
   - cp /usr/local/opt/freetds/lib/libsybdb.5.dylib lib
   - cp /usr/local/opt/gmp/lib/libgmp.10.dylib lib
   - cp /usr/local/opt/webp/lib/libwebp.7.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicui18n.60.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuuc.60.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.60.2.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuio.60.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.60.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicui18n.61.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuuc.61.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.61.1.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuio.61.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.61.dylib lib
   - mkdir ini
   - cp /usr/local/etc/php/7.2/php.ini ini
   - cp -r /usr/local/etc/php/7.2/conf.d ini
-  - sed -i '' "s=/usr/local/opt/php72-xdebug/xdebug.so=\$(pwd)/php72-xdebug/xdebug.so=g" $(pwd)/ini/conf.d/ext-xdebug.ini
-  - tar czf ../php72-${VERSION}.tar.gz .
-  - sed -i '' "s=\$(pwd)/php72-xdebug/xdebug.so=$(pwd)/php72-xdebug/xdebug.so=g" $(pwd)/ini/conf.d/ext-xdebug.ini
-  - brew rm --ignore-dependencies php72 php72-xdebug $(brew deps php72)
+  - sed -i '' '/^zend_extension="xdebug.so"/d' ini/php.ini
+  - echo -e "[opcache]\nzend_extension=\"\$(pwd)/$(find php72 -name opcache.so)\"\n" > ini/conf.d/ext-opcache.ini
+  - echo -e "[xdebug]\nzend_extension=\"\$(pwd)/$(find php72 -name xdebug.so)\"\n" > ini/conf.d/ext-xdebug.ini
+  - tar czf ../php-${VERSION}.tar.gz .
+  - sed -i '' "s=\$(pwd)/$(find php72 -name opcache.so)=$(pwd)/$(find php72 -name opcache.so)=g" ini/conf.d/ext-opcache.ini
+  - sed -i '' "s=\$(pwd)/$(find php72 -name xdebug.so)=$(pwd)/$(find php72 -name xdebug.so)=g" ini/conf.d/ext-xdebug.ini
+  - pecl uninstall xdebug
+  - brew rm --ignore-dependencies php72 $(brew deps php72)
   - ./php.sh --version
   - ./php.sh --ini
   - brew install openssl gmp
