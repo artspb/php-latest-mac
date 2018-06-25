@@ -31,11 +31,11 @@ script:
   - cp /usr/local/opt/freetds/lib/libsybdb.5.dylib lib
   - cp /usr/local/opt/gmp/lib/libgmp.10.dylib lib
   - cp /usr/local/opt/webp/lib/libwebp.7.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicui18n.61.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuuc.61.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.61.1.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuio.61.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.61.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicui18n.62.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuuc.62.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.62.1.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuio.62.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.62.dylib lib
   - mkdir ini
   - cp /usr/local/etc/php/7.2/php.ini ini
   - cp -r /usr/local/etc/php/7.2/conf.d ini
