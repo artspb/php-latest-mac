@@ -4,6 +4,7 @@ osx_image: xcode8.3
 before_install:
   - export VERSION=${TRAVIS_TAG:-snapshot}
   - brew update
+  - brew upgrade python
   - brew install php autoconf
   - pecl install xdebug > pecl_xdebug.txt
 script:
