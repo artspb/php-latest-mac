@@ -39,6 +39,7 @@ script:
   - cp /usr/local/opt/icu4c/lib/libicudata.62.dylib lib
   - cp /usr/local/opt/libpq/lib/libpq.5.dylib lib
   - cp /usr/local/opt/sqlite/lib/libsqlite3.0.dylib lib
+  - cp /usr/local/opt/tidy-html5/lib/libtidy.5.dylib lib
   - mkdir ini
   - cp /usr/local/etc/php/7.2/php.ini ini
   - cp -r /usr/local/etc/php/7.2/conf.d ini
