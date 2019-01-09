@@ -5,14 +5,15 @@ before_install:
   - export VERSION=${TRAVIS_TAG:-snapshot}
   - brew update
   - brew upgrade python
+  - brew install openldap libiconv curl-openssl
   - brew install php autoconf
-  - pecl install xdebug > pecl_xdebug.txt
+  - pecl install xdebug-2.7.0beta1 > pecl_xdebug.txt
 script:
   - XDEBUG_SO=$(sed -n "s=Installing '\(.*/xdebug\.so\)'=\1=p" pecl_xdebug.txt)
   - mv "$XDEBUG_SO" $(echo $XDEBUG_SO | sed "s=/pecl/=/lib/php/=g")
   - mkdir bundle && cd bundle
   - cp ../php.sh . && chmod +x php.sh
-  - cp -r /usr/local/Cellar/php/$(brew list --versions php72 | awk '{print $2;}') php72
+  - cp -r /usr/local/Cellar/php/$(brew list --versions php | awk '{print $2;}') php73
   - mkdir lib
   - cp /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib lib
   - cp /usr/local/opt/openssl/lib/libssl.1.0.0.dylib lib
@@ -32,25 +33,33 @@ script:
   - cp /usr/local/opt/freetds/lib/libsybdb.5.dylib lib
   - cp /usr/local/opt/gmp/lib/libgmp.10.dylib lib
   - cp /usr/local/opt/webp/lib/libwebp.7.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicui18n.62.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuuc.62.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.62.1.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuio.62.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.62.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicui18n.63.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuuc.63.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.63.1.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuio.63.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.63.dylib lib
   - cp /usr/local/opt/libpq/lib/libpq.5.dylib lib
   - cp /usr/local/opt/sqlite/lib/libsqlite3.0.dylib lib
   - cp /usr/local/opt/tidy-html5/lib/libtidy.5.dylib lib
+  - cp /usr/local/opt/openldap/lib/libldap-2.4.2.dylib lib
+  - cp /usr/local/opt/openldap/lib/liblber-2.4.2.dylib lib
+  - cp /usr/local/opt/libiconv/lib/libiconv.dylib lib
+  - cp /usr/local/opt/curl-openssl/lib/libcurl.4.dylib lib
+  - cp /usr/local/opt/nghttp2/lib/libnghttp2.14.dylib lib
+  - cp /usr/local/opt/brotli/lib/libbrotlidec.1.dylib lib
+  - cp /usr/local/opt/brotli/lib/libbrotlienc.1.dylib lib
+  - cp /usr/local/opt/brotli/lib/libbrotlicommon.1.dylib lib
   - mkdir ini
-  - cp /usr/local/etc/php/7.2/php.ini ini
-  - cp -r /usr/local/etc/php/7.2/conf.d ini
+  - cp /usr/local/etc/php/7.3/php.ini ini
+  - cp -r /usr/local/etc/php/7.3/conf.d ini
   - sed -i '' '/^zend_extension="xdebug.so"/d' ini/php.ini
-  - echo -e "[opcache]\nzend_extension=\"\$(pwd)/$(find php72 -name opcache.so)\"\n" > ini/conf.d/ext-opcache.ini
-  - echo -e "[xdebug]\nzend_extension=\"\$(pwd)/$(find php72 -name xdebug.so)\"\n" > ini/conf.d/ext-xdebug.ini
-  - tar czf ../php72-${VERSION}.tar.gz .
-  - sed -i '' "s=\$(pwd)/$(find php72 -name opcache.so)=$(pwd)/$(find php72 -name opcache.so)=g" ini/conf.d/ext-opcache.ini
-  - sed -i '' "s=\$(pwd)/$(find php72 -name xdebug.so)=$(pwd)/$(find php72 -name xdebug.so)=g" ini/conf.d/ext-xdebug.ini
+  - echo -e "[opcache]\nzend_extension=\"\$(pwd)/$(find php73 -name opcache.so)\"\n" > ini/conf.d/ext-opcache.ini
+  - echo -e "[xdebug]\nzend_extension=\"\$(pwd)/$(find php73 -name xdebug.so)\"\n" > ini/conf.d/ext-xdebug.ini
+  - tar czf ../php73-${VERSION}.tar.gz .
+  - sed -i '' "s=\$(pwd)/$(find php73 -name opcache.so)=$(pwd)/$(find php73 -name opcache.so)=g" ini/conf.d/ext-opcache.ini
+  - sed -i '' "s=\$(pwd)/$(find php73 -name xdebug.so)=$(pwd)/$(find php73 -name xdebug.so)=g" ini/conf.d/ext-xdebug.ini
   - pecl uninstall xdebug
-  - brew rm --ignore-dependencies php72 $(brew deps php72)
+  - brew rm --ignore-dependencies php $(brew deps php)
   - ./php.sh --version
   - ./php.sh --ini
   - brew install openssl gmp
@@ -59,7 +68,7 @@ deploy:
   provider: releases
   api_key:
     secure: BJpnmALcNUjawlDKn0HFp5nuitSvzYVzj0WkR5CjOuEhA04PWv4l1IwAQSU+HfpPI3pnf4QONpk9lkYNpHHCszYx17oiiMo8axysxls1/RUWhv2MJOZDx55Bh7oe1BtCRfwO9SSCdldjkTkUz0goxnm3fXPy2cCm9t63MZexLlLsER18mY8qptragC1vhPmq4pPTc3sUMZwU/ZX4maydQaeT2Npt12Bt0TFSxMnmc2HwC2HiYjVIfcennoObxHXAhZY1xftJErl3YEjBY87xRY0tsZxXvF9Di+zE840Cx+WVSjMhl+kh5w1d1zaa4P3XYiErFqq/xdBn2hpwcRhc6YTQQ3B8M0kIP1UHLmER+0neiuOOPedCMgTlYA0unbQWCELlMzc00cCpEuyyCIneaw1cGnAagjYrG5EM82aXeG9SJKI2jVa1I2+mykFMVmg80wlDDQLTuC6rkaxIIAg7XurL6pp7BTYcfVBsbyXt1k86qWtkvBDs8vtluI5SR5bL6jfdIAcu3g3k98K5nh03J5+Z0IUHmmgo0Joo3R7hLvuq1ZI5ygJNIxcKpU7X/6K3OcNz1blphLWq1CdJCFXl450i5FwiDH2tC1+macUGDk6QNnabsm1kMfJkziVlsV8K1ZusI8bAU6KP1KRtojy/sWO2c1RhSSo9ml5e7nEDrI4=
-  file: php72-${VERSION}.tar.gz
+  file: php73-${VERSION}.tar.gz
   skip_cleanup: true
   on:
     tags: true

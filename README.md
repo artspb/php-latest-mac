@@ -2,4 +2,4 @@
 
 [![Build Status](https://travis-ci.org/artspb/php-latest-mac.svg?branch=master)](https://travis-ci.org/artspb/php-latest-mac)
 
-Current version: 7.2.12.
+Current version: 7.3.0.
