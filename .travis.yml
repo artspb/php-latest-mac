@@ -17,7 +17,6 @@ script:
   - mkdir lib
   - cp /usr/local/opt/openssl/lib/libcrypto.1.0.0.dylib lib
   - cp /usr/local/opt/openssl/lib/libssl.1.0.0.dylib lib
-  - cp /usr/local/opt/readline/lib/libreadline.7.dylib lib
   - cp /usr/local/opt/gettext/lib/libintl.8.dylib lib
   - cp /usr/local/opt/libxml2/lib/libxml2.2.dylib lib
   - cp /usr/local/opt/freetype/lib/libfreetype.6.dylib lib
