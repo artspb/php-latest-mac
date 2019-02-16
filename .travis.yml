@@ -7,7 +7,7 @@ before_install:
   - brew upgrade python
   - brew install openldap libiconv curl-openssl
   - brew install php autoconf
-  - pecl install xdebug-2.7.0beta1 > pecl_xdebug.txt
+  - pecl install xdebug-2.7.0RC2 > pecl_xdebug.txt
 script:
   - XDEBUG_SO=$(sed -n "s=Installing '\(.*/xdebug\.so\)'=\1=p" pecl_xdebug.txt)
   - mv "$XDEBUG_SO" $(echo $XDEBUG_SO | sed "s=/pecl/=/lib/php/=g")
