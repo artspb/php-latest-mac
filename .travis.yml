@@ -5,7 +5,7 @@ before_install:
   - export VERSION=${TRAVIS_TAG:-snapshot}
   - brew update
   - brew upgrade python
-  - brew install openldap libiconv curl-openssl
+  - brew install openldap libiconv curl-openssl c-ares
   - brew install php autoconf
   - pecl install xdebug-2.7.0RC2 > pecl_xdebug.txt
 script:
@@ -48,6 +48,9 @@ script:
   - cp /usr/local/opt/brotli/lib/libbrotlidec.1.dylib lib
   - cp /usr/local/opt/brotli/lib/libbrotlienc.1.dylib lib
   - cp /usr/local/opt/brotli/lib/libbrotlicommon.1.dylib lib
+  - cp /usr/local/opt/c-ares/lib/libcares.2.dylib lib
+  - cp /usr/local/opt/rtmpdump/lib/librtmp.1.dylib lib
+  - cp /usr/local/opt/libssh2/lib/libssh2.1.dylib lib
   - mkdir ini
   - cp /usr/local/etc/php/7.3/php.ini ini
   - cp -r /usr/local/etc/php/7.3/conf.d ini
