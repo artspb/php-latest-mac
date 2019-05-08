@@ -7,7 +7,7 @@ before_install:
   - brew upgrade python
   - brew install openldap libiconv curl-openssl c-ares
   - brew install php autoconf
-  - pecl install xdebug-2.7.1 > pecl_xdebug.txt
+  - pecl install xdebug-2.7.2 > pecl_xdebug.txt
 script:
   - XDEBUG_SO=$(sed -n "s=Installing '\(.*/xdebug\.so\)'=\1=p" pecl_xdebug.txt)
   - mv "$XDEBUG_SO" $(echo $XDEBUG_SO | sed "s=/pecl/=/lib/php/=g")
@@ -32,11 +32,11 @@ script:
   - cp /usr/local/opt/freetds/lib/libsybdb.5.dylib lib
   - cp /usr/local/opt/gmp/lib/libgmp.10.dylib lib
   - cp /usr/local/opt/webp/lib/libwebp.7.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicui18n.63.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuuc.63.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.63.1.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicuio.63.dylib lib
-  - cp /usr/local/opt/icu4c/lib/libicudata.63.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicui18n.64.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuuc.64.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.64.2.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicuio.64.dylib lib
+  - cp /usr/local/opt/icu4c/lib/libicudata.64.dylib lib
   - cp /usr/local/opt/libpq/lib/libpq.5.dylib lib
   - cp /usr/local/opt/sqlite/lib/libsqlite3.0.dylib lib
   - cp /usr/local/opt/tidy-html5/lib/libtidy.5.dylib lib
